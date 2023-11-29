@@ -25,7 +25,7 @@
     var config = { attributes: true, childList: true, subtree: true };
 
     function callback(mutationList, observer) {
-      var tailwindStyle = document.head.getElementById(cssId);
+      var tailwindStyle = document.getElementById(cssId);
       console.log("head change");
       if (tailwindStyle && tailwindStyle.getAttribute("type") === "text/css") {
         console.log("tailwind not activated");
