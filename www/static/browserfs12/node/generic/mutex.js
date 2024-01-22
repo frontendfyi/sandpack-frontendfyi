@@ -1,3 +1,4 @@
+"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var setImmediate_1 = require("../generic/setImmediate");
 /**
@@ -29,7 +30,7 @@ var Mutex = /** @class */ (function () {
         // behavior that an unlock immediately followed by a
         // lock won't cause starvation.
         if (next) {
-            setImmediate_1.default(next);
+            (0, setImmediate_1.default)(next);
             return;
         }
         this._locked = false;

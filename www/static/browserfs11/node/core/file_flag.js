@@ -1,4 +1,6 @@
+"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.FileFlag = exports.ActionType = void 0;
 var api_error_1 = require("./api_error");
 var ActionType;
 (function (ActionType) {
@@ -10,7 +12,7 @@ var ActionType;
     ActionType[ActionType["TRUNCATE_FILE"] = 2] = "TRUNCATE_FILE";
     // Indicates that the code should create the file.
     ActionType[ActionType["CREATE_FILE"] = 3] = "CREATE_FILE";
-})(ActionType = exports.ActionType || (exports.ActionType = {}));
+})(ActionType || (exports.ActionType = ActionType = {}));
 /**
  * Represents one of the following file flags. A convenience object.
  *

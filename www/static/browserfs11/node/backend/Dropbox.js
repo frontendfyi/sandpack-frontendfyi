@@ -1,17 +1,21 @@
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DropboxFile = void 0;
 var preload_file_1 = require("../generic/preload_file");
 var file_system_1 = require("../core/file_system");
 var node_fs_stats_1 = require("../core/node_fs_stats");
@@ -96,7 +100,7 @@ function GetErrorMessage(err) {
         return GetErrorMessage(err.error);
     }
     else {
-        throw new Error("Dropbox's servers gave us a garbage error message: " + JSON.stringify(err));
+        throw new Error("Dropbox's servers gave us a garbage error message: ".concat(JSON.stringify(err)));
     }
 }
 function LookupErrorToError(err, p, msg) {
@@ -310,7 +314,7 @@ var DropboxFileSystem = /** @class */ (function (_super) {
     DropboxFileSystem.prototype.stat = function (path, isLstat, cb) {
         if (path === '/') {
             // Dropbox doesn't support querying the root directory.
-            setImmediate_1.default(function () {
+            (0, setImmediate_1.default)(function () {
                 cb(null, new node_fs_stats_1.default(node_fs_stats_1.FileType.DIRECTORY, 4096));
             });
             return;
@@ -357,7 +361,7 @@ var DropboxFileSystem = /** @class */ (function (_super) {
             var fr = new FileReader();
             fr.onload = function () {
                 var ab = fr.result;
-                cb(null, new DropboxFile(_this, path, flags, new node_fs_stats_1.default(node_fs_stats_1.FileType.FILE, ab.byteLength), util_1.arrayBuffer2Buffer(ab)));
+                cb(null, new DropboxFile(_this, path, flags, new node_fs_stats_1.default(node_fs_stats_1.FileType.FILE, ab.byteLength), (0, util_1.arrayBuffer2Buffer)(ab)));
             };
             fr.readAsArrayBuffer(b);
         }).catch(function (e) {
@@ -377,7 +381,7 @@ var DropboxFileSystem = /** @class */ (function (_super) {
     DropboxFileSystem.prototype.createFile = function (p, flags, mode, cb) {
         var _this = this;
         var fileData = Buffer.alloc(0);
-        var blob = new Blob([util_1.buffer2ArrayBuffer(fileData)], { type: "octet/stream" });
+        var blob = new Blob([(0, util_1.buffer2ArrayBuffer)(fileData)], { type: "octet/stream" });
         var commitInfo = {
             contents: blob,
             path: FixPath(p)
@@ -448,7 +452,7 @@ var DropboxFileSystem = /** @class */ (function (_super) {
     DropboxFileSystem.prototype.mkdir = function (p, mode, cb) {
         var _this = this;
         // Dropbox's create_folder is recursive. Check if parent exists.
-        var parent = path_1.dirname(p);
+        var parent = (0, path_1.dirname)(p);
         this.stat(parent, false, function (e, stats) {
             if (e) {
                 cb(e);
@@ -492,7 +496,7 @@ var DropboxFileSystem = /** @class */ (function (_super) {
      */
     DropboxFileSystem.prototype._syncFile = function (p, d, cb) {
         var _this = this;
-        var blob = new Blob([util_1.buffer2ArrayBuffer(d)], { type: "octet/stream" });
+        var blob = new Blob([(0, util_1.buffer2ArrayBuffer)(d)], { type: "octet/stream" });
         var arg = {
             contents: blob,
             path: FixPath(p),

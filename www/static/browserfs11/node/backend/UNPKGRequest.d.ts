@@ -11,7 +11,7 @@ export interface UNPKGRequestOptions {
     version: string;
     preferXHR?: boolean;
 }
-export declare type UNPKGMeta = UNPKGMetaDirectory;
+export type UNPKGMeta = UNPKGMetaDirectory;
 export interface UNPKGMetaFile {
     path: string;
     type: "file";
@@ -56,7 +56,7 @@ export interface UNPKGMetaDirectory {
 export default class UNPKGRequest extends BaseFileSystem implements FileSystem {
     private dependency;
     private version;
-    static readonly Name: string;
+    static readonly Name = "UNPKGRequest";
     static readonly Options: FileSystemOptions;
     /**
      * Construct an HTTPRequest file system backend with the given options.

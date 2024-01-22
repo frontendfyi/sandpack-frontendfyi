@@ -1,3 +1,4 @@
+"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var path = require("path");
 var api_error_1 = require("./api_error");
@@ -24,19 +25,19 @@ function wrapCb(cb, numArgs) {
     switch (numArgs) {
         case 1:
             return function (arg1) {
-                setImmediate_1.default(function () {
+                (0, setImmediate_1.default)(function () {
                     return hookedCb(arg1);
                 });
             };
         case 2:
             return function (arg1, arg2) {
-                setImmediate_1.default(function () {
+                (0, setImmediate_1.default)(function () {
                     return hookedCb(arg1, arg2);
                 });
             };
         case 3:
             return function (arg1, arg2, arg3) {
-                setImmediate_1.default(function () {
+                (0, setImmediate_1.default)(function () {
                     return hookedCb(arg1, arg2, arg3);
                 });
             };
@@ -125,7 +126,7 @@ function normalizeOptions(options, defEnc, defFlag, defMode) {
                 mode: defMode
             };
         default:
-            throw new TypeError("\"options\" must be a string or an object, got " + typeof options + " instead.");
+            throw new TypeError("\"options\" must be a string or an object, got ".concat(typeof options, " instead."));
     }
 }
 /**
@@ -199,7 +200,7 @@ var FS = /** @class */ (function () {
         if (cb === void 0) { cb = nopCb; }
         var newCb = wrapCb(cb, 1);
         try {
-            setImmediate_1.default(function () {
+            (0, setImmediate_1.default)(function () {
                 _this.fileWatcher.triggerWatch(oldPath, 'rename');
                 _this.stat(newPath, function (err, stat) {
                     if (err) {
@@ -221,7 +222,7 @@ var FS = /** @class */ (function () {
      */
     FS.prototype.renameSync = function (oldPath, newPath) {
         var _this = this;
-        setImmediate_1.default(function () {
+        (0, setImmediate_1.default)(function () {
             _this.fileWatcher.triggerWatch(oldPath, 'rename');
             _this.fileWatcher.triggerWatch(newPath, 'rename');
         });
@@ -330,7 +331,7 @@ var FS = /** @class */ (function () {
             if (len < 0) {
                 throw new api_error_1.ApiError(api_error_1.ErrorCode.EINVAL);
             }
-            setImmediate_1.default(function () {
+            (0, setImmediate_1.default)(function () {
                 _this.stat(path, function (err, stat) {
                     _this.fileWatcher.triggerWatch(path, 'change', stat);
                 });
@@ -352,7 +353,7 @@ var FS = /** @class */ (function () {
         if (len < 0) {
             throw new api_error_1.ApiError(api_error_1.ErrorCode.EINVAL);
         }
-        setImmediate_1.default(function () {
+        (0, setImmediate_1.default)(function () {
             _this.stat(path, function (err, stat) {
                 _this.fileWatcher.triggerWatch(path, 'change', stat);
             });
@@ -369,7 +370,7 @@ var FS = /** @class */ (function () {
         if (cb === void 0) { cb = nopCb; }
         var newCb = wrapCb(cb, 1);
         try {
-            setImmediate_1.default(function () {
+            (0, setImmediate_1.default)(function () {
                 _this.fileWatcher.triggerWatch(path, 'rename', new node_fs_stats_1.default(node_fs_stats_1.FileType.FILE, 0, undefined, 0, 0, 0, 0));
             });
             return assertRoot(this.root).unlink(normalizePath(path), newCb);
@@ -384,7 +385,7 @@ var FS = /** @class */ (function () {
      */
     FS.prototype.unlinkSync = function (path) {
         var _this = this;
-        setImmediate_1.default(function () {
+        (0, setImmediate_1.default)(function () {
             _this.fileWatcher.triggerWatch(path, 'rename', new node_fs_stats_1.default(node_fs_stats_1.FileType.FILE, 0, undefined, 0, 0, 0, 0));
         });
         return assertRoot(this.root).unlinkSync(normalizePath(path));
@@ -464,7 +465,7 @@ var FS = /** @class */ (function () {
                 for (var _i = 0; _i < arguments.length; _i++) {
                     args[_i] = arguments[_i];
                 }
-                setImmediate_1.default(function () {
+                (0, setImmediate_1.default)(function () {
                     _this.stat(filename, function (_err, stat) {
                         _this.fileWatcher.triggerWatch(filename, 'change', stat);
                     });
@@ -483,7 +484,7 @@ var FS = /** @class */ (function () {
         if (!flag.isWriteable()) {
             throw new api_error_1.ApiError(api_error_1.ErrorCode.EINVAL, 'Flag passed to writeFile must allow for writing.');
         }
-        setImmediate_1.default(function () {
+        (0, setImmediate_1.default)(function () {
             _this.stat(filename, function (err, stat) {
                 _this.fileWatcher.triggerWatch(filename, 'change', stat);
             });
@@ -501,7 +502,7 @@ var FS = /** @class */ (function () {
             if (!flag.isAppendable()) {
                 return newCb(new api_error_1.ApiError(api_error_1.ErrorCode.EINVAL, 'Flag passed to appendFile must allow for appending.'));
             }
-            setImmediate_1.default(function () {
+            (0, setImmediate_1.default)(function () {
                 _this.stat(filename, function (err, stat) {
                     _this.fileWatcher.triggerWatch(filename, 'rename', stat);
                 });
@@ -519,7 +520,7 @@ var FS = /** @class */ (function () {
         if (!flag.isAppendable()) {
             throw new api_error_1.ApiError(api_error_1.ErrorCode.EINVAL, 'Flag passed to appendFile must allow for appending.');
         }
-        setImmediate_1.default(function () {
+        (0, setImmediate_1.default)(function () {
             _this.stat(filename, function (err, stat) {
                 _this.fileWatcher.triggerWatch(filename, 'change', stat);
             });
@@ -905,7 +906,7 @@ var FS = /** @class */ (function () {
         var newCb = wrapCb(cb, 1);
         try {
             path = normalizePath(path);
-            setImmediate_1.default(function () {
+            (0, setImmediate_1.default)(function () {
                 _this.fileWatcher.triggerWatch(path, 'rename');
             });
             assertRoot(this.root).rmdir(path, newCb);
@@ -921,7 +922,7 @@ var FS = /** @class */ (function () {
     FS.prototype.rmdirSync = function (path) {
         var _this = this;
         path = normalizePath(path);
-        setImmediate_1.default(function () {
+        (0, setImmediate_1.default)(function () {
             _this.fileWatcher.triggerWatch(path, 'rename');
         });
         return assertRoot(this.root).rmdirSync(path);
@@ -942,7 +943,7 @@ var FS = /** @class */ (function () {
         var newCb = wrapCb(cb, 1);
         try {
             path = normalizePath(path);
-            setImmediate_1.default(function () {
+            (0, setImmediate_1.default)(function () {
                 _this.fileWatcher.triggerWatch(path, 'rename');
             });
             assertRoot(this.root).mkdir(path, mode, newCb);
@@ -958,7 +959,7 @@ var FS = /** @class */ (function () {
      */
     FS.prototype.mkdirSync = function (path, mode) {
         var _this = this;
-        setImmediate_1.default(function () {
+        (0, setImmediate_1.default)(function () {
             _this.fileWatcher.triggerWatch(path, 'rename');
         });
         assertRoot(this.root).mkdirSync(normalizePath(path), normalizeMode(mode, 0x1ff));

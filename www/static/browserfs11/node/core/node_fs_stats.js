@@ -1,4 +1,6 @@
+"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.FileType = void 0;
 /**
  * Indicates the type of the given file. Applied to 'mode'.
  */
@@ -7,7 +9,7 @@ var FileType;
     FileType[FileType["FILE"] = 32768] = "FILE";
     FileType[FileType["DIRECTORY"] = 16384] = "DIRECTORY";
     FileType[FileType["SYMLINK"] = 40960] = "SYMLINK";
-})(FileType = exports.FileType || (exports.FileType = {}));
+})(FileType || (exports.FileType = FileType = {}));
 /**
  * Emulation of Node's `fs.Stats` object.
  *
@@ -113,28 +115,28 @@ var Stats = /** @class */ (function () {
         get: function () {
             return new Date(this.atimeMs);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Stats.prototype, "mtime", {
         get: function () {
             return new Date(this.mtimeMs);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Stats.prototype, "ctime", {
         get: function () {
             return new Date(this.ctimeMs);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Stats.prototype, "birthtime", {
         get: function () {
             return new Date(this.birthtimeMs);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Stats.prototype.toBuffer = function () {

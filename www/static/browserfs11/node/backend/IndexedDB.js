@@ -1,17 +1,21 @@
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.IndexedDBStore = exports.IndexedDBRWTransaction = exports.IndexedDBROTransaction = void 0;
 var key_value_filesystem_1 = require("../generic/key_value_filesystem");
 var api_error_1 = require("../core/api_error");
 var global_1 = require("../core/global");
@@ -77,7 +81,7 @@ var IndexedDBROTransaction = /** @class */ (function () {
                 }
                 else {
                     // IDB data is stored as an ArrayBuffer
-                    cb(null, util_1.arrayBuffer2Buffer(result));
+                    cb(null, (0, util_1.arrayBuffer2Buffer)(result));
                 }
             };
         }
@@ -98,7 +102,7 @@ var IndexedDBRWTransaction = /** @class */ (function (_super) {
     }
     IndexedDBRWTransaction.prototype.put = function (key, data, overwrite, cb) {
         try {
-            var arraybuffer = util_1.buffer2ArrayBuffer(data);
+            var arraybuffer = (0, util_1.buffer2ArrayBuffer)(data);
             var r = void 0;
             // Note: 'add' will never overwrite an existing key.
             r = overwrite ? this.store.put(arraybuffer, key) : this.store.add(arraybuffer, key);

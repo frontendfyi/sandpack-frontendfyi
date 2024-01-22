@@ -329,7 +329,7 @@ export interface ZipFSOptions {
  */
 export default class ZipFS extends SynchronousFileSystem implements FileSystem {
     private name;
-    static readonly Name: string;
+    static readonly Name = "ZipFS";
     static readonly Options: FileSystemOptions;
     static readonly CompressionMethod: typeof CompressionMethod;
     /**

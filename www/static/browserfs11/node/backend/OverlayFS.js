@@ -1,17 +1,21 @@
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.UnlockedOverlayFS = void 0;
 var file_system_1 = require("../core/file_system");
 var api_error_1 = require("../core/api_error");
 var file_flag_1 = require("../core/file_flag");
@@ -627,7 +631,7 @@ var UnlockedOverlayFS = /** @class */ (function (_super) {
                     // Readdir in both, check delete log on read-only file system's files, merge, return.
                     var seenMap = {};
                     var filtered = wFiles.concat(rFiles.filter(function (fPath) {
-                        return !_this._deletedFiles[p + "/" + fPath];
+                        return !_this._deletedFiles["".concat(p, "/").concat(fPath)];
                     })).filter(function (fPath) {
                         // Remove duplicates.
                         var result = !seenMap[fPath];
@@ -656,7 +660,7 @@ var UnlockedOverlayFS = /** @class */ (function (_super) {
         }
         try {
             contents = contents.concat(this._readable.readdirSync(p).filter(function (fPath) {
-                return !_this._deletedFiles[p + "/" + fPath];
+                return !_this._deletedFiles["".concat(p, "/").concat(fPath)];
             }));
         }
         catch (e) {
@@ -752,7 +756,7 @@ var UnlockedOverlayFS = /** @class */ (function (_super) {
     };
     UnlockedOverlayFS.prototype.deletePath = function (p) {
         this._deletedFiles[p] = true;
-        this.updateLog("d" + p + "\n");
+        this.updateLog("d".concat(p, "\n"));
     };
     UnlockedOverlayFS.prototype.updateLog = function (addition) {
         var _this = this;

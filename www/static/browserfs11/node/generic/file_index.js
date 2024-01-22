@@ -1,4 +1,6 @@
+"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.isDirInode = exports.isFileInode = exports.DirInode = exports.FileInode = exports.FileIndex = void 0;
 var path = require("path");
 var node_fs_stats_1 = require("../core/node_fs_stats");
 /**
@@ -39,7 +41,7 @@ var FileIndex = /** @class */ (function () {
             for (var node in tree) {
                 if (tree.hasOwnProperty(node)) {
                     var children = tree[node];
-                    var name_1 = pwd + "/" + node;
+                    var name_1 = "".concat(pwd, "/").concat(node);
                     if (children) {
                         idx._index[name_1] = inode = new DirInode();
                         queue.push([name_1, children, inode]);

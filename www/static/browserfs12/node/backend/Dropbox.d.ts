@@ -21,7 +21,7 @@ export interface DropboxFileSystemOptions {
  * Uses the Dropbox V2 API, and the 2.x JS SDK.
  */
 export default class DropboxFileSystem extends BaseFileSystem implements FileSystem {
-    static readonly Name: string;
+    static readonly Name = "DropboxV2";
     static readonly Options: FileSystemOptions;
     /**
      * Creates a new DropboxFileSystem instance with the given options.

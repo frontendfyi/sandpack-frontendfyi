@@ -10,7 +10,7 @@ export interface WebsocketFSOptions {
     socket: Socket;
 }
 export default class WebsocketFS extends SynchronousFileSystem implements FileSystem {
-    static readonly Name: string;
+    static readonly Name = "WebsocketFS";
     static readonly Options: FileSystemOptions;
     static Create(options: WebsocketFSOptions, cb: BFSCallback<WebsocketFS>): void;
     static isAvailable(): boolean;

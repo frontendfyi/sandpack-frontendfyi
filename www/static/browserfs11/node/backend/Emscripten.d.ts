@@ -39,7 +39,7 @@ export interface EmscriptenFileSystemOptions {
  * Mounts an Emscripten file system into the BrowserFS file system.
  */
 export default class EmscriptenFileSystem extends SynchronousFileSystem {
-    static readonly Name: string;
+    static readonly Name = "EmscriptenFileSystem";
     static readonly Options: FileSystemOptions;
     /**
      * Create an EmscriptenFileSystem instance with the given options.

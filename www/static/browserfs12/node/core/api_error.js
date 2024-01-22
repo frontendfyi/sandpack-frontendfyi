@@ -1,17 +1,21 @@
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ApiError = exports.ErrorStrings = exports.ErrorCode = void 0;
 /**
  * Standard libc error codes. Add more to this enum and ErrorStrings as they are
  * needed.
@@ -34,7 +38,7 @@ var ErrorCode;
     ErrorCode[ErrorCode["EROFS"] = 30] = "EROFS";
     ErrorCode[ErrorCode["ENOTEMPTY"] = 39] = "ENOTEMPTY";
     ErrorCode[ErrorCode["ENOTSUP"] = 95] = "ENOTSUP";
-})(ErrorCode = exports.ErrorCode || (exports.ErrorCode = {}));
+})(ErrorCode || (exports.ErrorCode = ErrorCode = {}));
 /* tslint:disable:variable-name */
 /**
  * Strings associated with each error code.
@@ -82,7 +86,7 @@ var ApiError = /** @class */ (function (_super) {
         _this.code = ErrorCode[type];
         _this.path = path;
         _this.stack = new Error().stack;
-        _this.message = "Error: " + _this.code + ": " + message + (_this.path ? ", '" + _this.path + "'" : '');
+        _this.message = "Error: ".concat(_this.code, ": ").concat(message).concat(_this.path ? ", '".concat(_this.path, "'") : '');
         return _this;
     }
     ApiError.fromJSON = function (json) {

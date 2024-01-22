@@ -1,11 +1,14 @@
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -152,7 +155,7 @@ var CodeSandboxEditorFS = /** @class */ (function (_super) {
                 var jwt = this.api.getJwt && this.api.getJwt();
                 var sendAuth = jwt && new URL(url).origin === document.location.origin;
                 var headers = sendAuth ? {
-                    Authorization: "Bearer " + (this.api.getJwt && this.api.getJwt())
+                    Authorization: "Bearer ".concat(this.api.getJwt && this.api.getJwt())
                 } : {};
                 fetch(url, { headers: headers }).then(function (x) { return x.blob(); }).then(function (blob) {
                     var stats = new node_fs_stats_1.default(node_fs_stats_1.FileType.FILE, blob.size, undefined, +new Date(), +new Date(moduleInfo.updatedAt), +new Date(moduleInfo.insertedAt));

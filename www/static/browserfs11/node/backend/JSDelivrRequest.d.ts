@@ -11,7 +11,7 @@ export interface JSDelivrRequestOptions {
     version: string;
     preferXHR?: boolean;
 }
-export declare type JSDelivrMeta = {
+export type JSDelivrMeta = {
     files: JSDelivrMetaFile[];
 };
 export interface JSDelivrMetaFile {
@@ -51,7 +51,7 @@ export interface JSDelivrMetaFile {
 export default class JSDelivrRequest extends BaseFileSystem implements FileSystem {
     private dependency;
     private version;
-    static readonly Name: string;
+    static readonly Name = "JSDelivrRequest";
     static readonly Options: FileSystemOptions;
     /**
      * Construct an HTTPRequest file system backend with the given options.

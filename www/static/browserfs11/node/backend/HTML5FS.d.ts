@@ -22,7 +22,7 @@ export interface HTML5FSOptions {
  * only available in Chrome.
  */
 export default class HTML5FS extends BaseFileSystem implements IFileSystem {
-    static readonly Name: string;
+    static readonly Name = "HTML5FS";
     static readonly Options: FileSystemOptions;
     /**
      * Creates an HTML5FS instance with the given options.

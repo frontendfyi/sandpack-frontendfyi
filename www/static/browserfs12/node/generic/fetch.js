@@ -1,7 +1,9 @@
+"use strict";
 /**
  * Contains utility methods using 'fetch'.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.fetchFileSizeAsync = exports.fetchFileAsync = exports.fetchIsAvailable = void 0;
 var api_error_1 = require("../core/api_error");
 exports.fetchIsAvailable = (typeof (fetch) !== "undefined" && fetch !== null);
 function fetchFileAsync(p, type, cb) {
@@ -16,7 +18,7 @@ function fetchFileAsync(p, type, cb) {
     request
         .then(function (res) {
         if (!res.ok) {
-            return cb(new api_error_1.ApiError(api_error_1.ErrorCode.EIO, "fetch error: response returned code " + res.status));
+            return cb(new api_error_1.ApiError(api_error_1.ErrorCode.EIO, "fetch error: response returned code ".concat(res.status)));
         }
         else {
             switch (type) {
@@ -46,7 +48,7 @@ function fetchFileSizeAsync(p, cb) {
     fetch(p, { method: 'HEAD' })
         .then(function (res) {
         if (!res.ok) {
-            return cb(new api_error_1.ApiError(api_error_1.ErrorCode.EIO, "fetch HEAD error: response returned code " + res.status));
+            return cb(new api_error_1.ApiError(api_error_1.ErrorCode.EIO, "fetch HEAD error: response returned code ".concat(res.status)));
         }
         else {
             return cb(null, parseInt(res.headers.get('Content-Length') || '-1', 10));

@@ -1,11 +1,14 @@
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -120,13 +123,13 @@ var BundledHTTPRequest = /** @class */ (function (_super) {
             opts.index = "index.json";
         }
         if (typeof (opts.index) === "string") {
-            xhr_1.asyncDownloadFile(opts.index, "json", function (e, data) {
+            (0, xhr_1.asyncDownloadFile)(opts.index, "json", function (e, data) {
                 if (e) {
                     cb(e);
                 }
                 else {
                     if (typeof opts.bundle === 'string') {
-                        xhr_1.asyncDownloadFile(opts.bundle, "json", function (e, bundleData) {
+                        (0, xhr_1.asyncDownloadFile)(opts.bundle, "json", function (e, bundleData) {
                             if (e) {
                                 console.error("Couldn't preload bundle", e);
                             }
@@ -142,7 +145,7 @@ var BundledHTTPRequest = /** @class */ (function (_super) {
         else {
             var index_1 = opts.index;
             if (typeof opts.bundle === 'string') {
-                xhr_1.asyncDownloadFile(opts.bundle, "json", function (e, bundleData) {
+                (0, xhr_1.asyncDownloadFile)(opts.bundle, "json", function (e, bundleData) {
                     if (e) {
                         console.error("Couldn't preload bundle", e);
                     }
@@ -197,7 +200,7 @@ var BundledHTTPRequest = /** @class */ (function (_super) {
      */
     BundledHTTPRequest.prototype.preloadFile = function (path, buffer) {
         var inode = this._index.getInode(path);
-        if (file_index_1.isFileInode(inode)) {
+        if ((0, file_index_1.isFileInode)(inode)) {
             if (inode === null) {
                 throw api_error_1.ApiError.ENOENT(path);
             }
@@ -216,7 +219,7 @@ var BundledHTTPRequest = /** @class */ (function (_super) {
             return cb(api_error_1.ApiError.ENOENT(path));
         }
         var stats;
-        if (file_index_1.isFileInode(inode)) {
+        if ((0, file_index_1.isFileInode)(inode)) {
             stats = inode.getData();
             // At this point, a non-opened file will still have default stats from the listing.
             if (stats.size < 0) {
@@ -236,7 +239,7 @@ var BundledHTTPRequest = /** @class */ (function (_super) {
                 cb(null, node_fs_stats_1.default.clone(stats));
             }
         }
-        else if (file_index_1.isDirInode(inode)) {
+        else if ((0, file_index_1.isDirInode)(inode)) {
             stats = inode.getStats();
             cb(null, stats);
         }
@@ -250,7 +253,7 @@ var BundledHTTPRequest = /** @class */ (function (_super) {
             throw api_error_1.ApiError.ENOENT(path);
         }
         var stats;
-        if (file_index_1.isFileInode(inode)) {
+        if ((0, file_index_1.isFileInode)(inode)) {
             stats = inode.getData();
             // At this point, a non-opened file will still have default stats from the listing.
             if (stats.size < 0) {
@@ -262,7 +265,7 @@ var BundledHTTPRequest = /** @class */ (function (_super) {
                 stats.size = size;
             }
         }
-        else if (file_index_1.isDirInode(inode)) {
+        else if ((0, file_index_1.isDirInode)(inode)) {
             stats = inode.getStats();
         }
         else {
@@ -281,7 +284,7 @@ var BundledHTTPRequest = /** @class */ (function (_super) {
         if (inode === null) {
             return cb(api_error_1.ApiError.ENOENT(path));
         }
-        if (file_index_1.isFileInode(inode)) {
+        if ((0, file_index_1.isFileInode)(inode)) {
             var stats_1 = inode.getData();
             switch (flags.pathExistsAction()) {
                 case file_flag_1.ActionType.THROW_EXCEPTION:
@@ -322,7 +325,7 @@ var BundledHTTPRequest = /** @class */ (function (_super) {
         if (inode === null) {
             throw api_error_1.ApiError.ENOENT(path);
         }
-        if (file_index_1.isFileInode(inode)) {
+        if ((0, file_index_1.isFileInode)(inode)) {
             var stats = inode.getData();
             switch (flags.pathExistsAction()) {
                 case file_flag_1.ActionType.THROW_EXCEPTION:
@@ -362,7 +365,7 @@ var BundledHTTPRequest = /** @class */ (function (_super) {
         if (inode === null) {
             throw api_error_1.ApiError.ENOENT(path);
         }
-        else if (file_index_1.isDirInode(inode)) {
+        else if ((0, file_index_1.isDirInode)(inode)) {
             return inode.getListing();
         }
         else {
@@ -396,7 +399,7 @@ var BundledHTTPRequest = /** @class */ (function (_super) {
                 _this.logRead(fname, fdBuff.toString());
             }
             if (encoding === null) {
-                cb(err, util_1.copyingSlice(fdBuff));
+                cb(err, (0, util_1.copyingSlice)(fdBuff));
             }
             else {
                 tryToString(fdBuff, encoding, cb);
@@ -417,7 +420,7 @@ var BundledHTTPRequest = /** @class */ (function (_super) {
                 this.logRead(fname, fdBuff.toString());
             }
             if (encoding === null) {
-                return util_1.copyingSlice(fdBuff);
+                return (0, util_1.copyingSlice)(fdBuff);
             }
             return fdBuff.toString(encoding);
         }

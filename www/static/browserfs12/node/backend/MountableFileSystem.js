@@ -1,11 +1,14 @@
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -107,20 +110,20 @@ var MountableFileSystem = /** @class */ (function (_super) {
      */
     MountableFileSystem.prototype.mount = function (mountPoint, fs) {
         if (mountPoint[0] !== '/') {
-            mountPoint = "/" + mountPoint;
+            mountPoint = "/".concat(mountPoint);
         }
         mountPoint = path.resolve(mountPoint);
         if (this.mntMap[mountPoint]) {
             throw new api_error_1.ApiError(api_error_1.ErrorCode.EINVAL, "Mount point " + mountPoint + " is already taken.");
         }
-        util_1.mkdirpSync(mountPoint, 0x1ff, this.rootFs);
+        (0, util_1.mkdirpSync)(mountPoint, 0x1ff, this.rootFs);
         this.mntMap[mountPoint] = fs;
         this.mountList.push(mountPoint);
         this.mountList = this.mountList.sort(function (a, b) { return b.length - a.length; });
     };
     MountableFileSystem.prototype.umount = function (mountPoint) {
         if (mountPoint[0] !== '/') {
-            mountPoint = "/" + mountPoint;
+            mountPoint = "/".concat(mountPoint);
         }
         mountPoint = path.resolve(mountPoint);
         if (!this.mntMap[mountPoint]) {

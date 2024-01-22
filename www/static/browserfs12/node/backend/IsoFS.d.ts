@@ -18,7 +18,7 @@ export interface IsoFSOptions {
  * * Microsoft Joliet and Rock Ridge extensions to the ISO9660 standard
  */
 export default class IsoFS extends SynchronousFileSystem implements FileSystem {
-    static readonly Name: string;
+    static readonly Name = "IsoFS";
     static readonly Options: FileSystemOptions;
     /**
      * Creates an IsoFS instance with the given options.

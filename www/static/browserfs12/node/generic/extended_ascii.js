@@ -1,3 +1,4 @@
+"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * (Nonstandard) String utility function for 8-bit ASCII with the extended

@@ -3,9 +3,9 @@ import { ApiError } from './api_error';
 import Stats from './node_fs_stats';
 import { File } from './file';
 import { FileFlag } from './file_flag';
-export declare type BFSOneArgCallback = (e?: ApiError | null) => any;
-export declare type BFSCallback<T> = (e: ApiError | null | undefined, rv?: T) => any;
-export declare type BFSThreeArgCallback<T, U> = (e: ApiError | null | undefined, arg1?: T, arg2?: U) => any;
+export type BFSOneArgCallback = (e?: ApiError | null) => any;
+export type BFSCallback<T> = (e: ApiError | null | undefined, rv?: T) => any;
+export type BFSThreeArgCallback<T, U> = (e: ApiError | null | undefined, arg1?: T, arg2?: U) => any;
 /**
  * Interface for a filesystem. **All** BrowserFS FileSystems should implement
  * this interface.

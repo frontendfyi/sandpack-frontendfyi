@@ -1,8 +1,10 @@
+"use strict";
 /**
  * Contains utility methods for performing a variety of tasks with
  * XmlHttpRequest across browsers.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getFileSizeAsync = exports.getFileSizeSync = exports.syncDownloadFile = exports.asyncDownloadFile = exports.xhrIsAvailable = void 0;
 var util_1 = require("../core/util");
 var api_error_1 = require("../core/api_error");
 exports.xhrIsAvailable = (typeof (XMLHttpRequest) !== "undefined" && XMLHttpRequest !== null);
@@ -35,7 +37,7 @@ function asyncDownloadFileModern(p, type, cb) {
                 switch (type) {
                     case 'buffer':
                         // XXX: WebKit-based browsers return *null* when XHRing an empty file.
-                        return cb(null, req.response ? Buffer.from(req.response) : util_1.emptyBuffer());
+                        return cb(null, req.response ? Buffer.from(req.response) : (0, util_1.emptyBuffer)());
                     case 'json':
                         if (jsonSupported) {
                             return cb(null, req.response);
@@ -46,7 +48,7 @@ function asyncDownloadFileModern(p, type, cb) {
                 }
             }
             else {
-                return cb(new api_error_1.ApiError(api_error_1.ErrorCode.EIO, "XHR error: response returned code " + req.status));
+                return cb(new api_error_1.ApiError(api_error_1.ErrorCode.EIO, "XHR error: response returned code ".concat(req.status)));
             }
         }
     };
@@ -82,7 +84,7 @@ function syncDownloadFileModern(p, type) {
                 }
             }
             else {
-                err = new api_error_1.ApiError(api_error_1.ErrorCode.EIO, "XHR error: response returned code " + req.status);
+                err = new api_error_1.ApiError(api_error_1.ErrorCode.EIO, "XHR error: response returned code ".concat(req.status));
                 return;
             }
         }
@@ -121,7 +123,7 @@ function syncDownloadFileIE10(p, type) {
                 }
             }
             else {
-                err = new api_error_1.ApiError(api_error_1.ErrorCode.EIO, "XHR error: response returned code " + req.status);
+                err = new api_error_1.ApiError(api_error_1.ErrorCode.EIO, "XHR error: response returned code ".concat(req.status));
             }
         }
     };
@@ -149,7 +151,7 @@ function getFileSize(async, p, cb) {
                 }
             }
             else {
-                return cb(new api_error_1.ApiError(api_error_1.ErrorCode.EIO, "XHR HEAD error: response returned code " + req.status));
+                return cb(new api_error_1.ApiError(api_error_1.ErrorCode.EIO, "XHR HEAD error: response returned code ".concat(req.status)));
             }
         }
     };

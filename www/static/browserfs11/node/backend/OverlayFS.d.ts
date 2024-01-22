@@ -103,7 +103,7 @@ export interface OverlayFSOptions {
  * file system.
  */
 export default class OverlayFS extends LockedFS<UnlockedOverlayFS> {
-    static readonly Name: string;
+    static readonly Name = "OverlayFS";
     static readonly Options: FileSystemOptions;
     /**
      * Constructs and initializes an OverlayFS instance with the given options.

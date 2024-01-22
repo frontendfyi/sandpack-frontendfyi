@@ -1,3 +1,4 @@
+"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var node_fs_1 = require("../core/node_fs");
 var util_1 = require("../core/util");
@@ -41,7 +42,7 @@ var BFSEmscriptenStreamOps = /** @class */ (function () {
     BFSEmscriptenStreamOps.prototype.read = function (stream, buffer, offset, length, position) {
         // Avoid copying overhead by reading directly into buffer.
         try {
-            return this.nodefs.readSync(stream.nfd, util_1.uint8Array2Buffer(buffer), offset, length, position);
+            return this.nodefs.readSync(stream.nfd, (0, util_1.uint8Array2Buffer)(buffer), offset, length, position);
         }
         catch (e) {
             throw new this.FS.ErrnoError(this.ERRNO_CODES[e.code]);
@@ -50,7 +51,7 @@ var BFSEmscriptenStreamOps = /** @class */ (function () {
     BFSEmscriptenStreamOps.prototype.write = function (stream, buffer, offset, length, position) {
         // Avoid copying overhead.
         try {
-            return this.nodefs.writeSync(stream.nfd, util_1.uint8Array2Buffer(buffer), offset, length, position);
+            return this.nodefs.writeSync(stream.nfd, (0, util_1.uint8Array2Buffer)(buffer), offset, length, position);
         }
         catch (e) {
             throw new this.FS.ErrnoError(this.ERRNO_CODES[e.code]);

@@ -1,4 +1,6 @@
+"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.FileWatcher = void 0;
 var EventEmitter = require('events');
 var FileWatcher = /** @class */ (function () {
     function FileWatcher() {

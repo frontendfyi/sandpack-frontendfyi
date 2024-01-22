@@ -33,7 +33,7 @@ export interface WorkerFSOptions {
  * of the configuration option of the remote FS.
  */
 export default class WorkerFS extends BaseFileSystem implements FileSystem {
-    static readonly Name: string;
+    static readonly Name = "WorkerFS";
     static readonly Options: FileSystemOptions;
     static Create(opts: WorkerFSOptions, cb: BFSCallback<WorkerFS>): void;
     static isAvailable(): boolean;

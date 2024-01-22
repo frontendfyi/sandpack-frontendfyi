@@ -1,11 +1,14 @@
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -96,8 +99,8 @@ var JSDelivrRequest = /** @class */ (function (_super) {
      * Construct an HTTPRequest file system backend with the given options.
      */
     JSDelivrRequest.Create = function (opts, cb) {
-        var URL = "https://data.jsdelivr.com/v1/package/npm/" + opts.dependency + "@" + opts.version + "/flat";
-        xhr_1.asyncDownloadFile(URL, "json", function (e, data) {
+        var URL = "https://data.jsdelivr.com/v1/package/npm/".concat(opts.dependency, "@").concat(opts.version, "/flat");
+        (0, xhr_1.asyncDownloadFile)(URL, "json", function (e, data) {
             if (e) {
                 cb(e);
             }
@@ -142,7 +145,7 @@ var JSDelivrRequest = /** @class */ (function (_super) {
      */
     JSDelivrRequest.prototype.preloadFile = function (path, buffer) {
         var inode = this._index.getInode(path);
-        if (file_index_1.isFileInode(inode)) {
+        if ((0, file_index_1.isFileInode)(inode)) {
             if (inode === null) {
                 throw api_error_1.ApiError.ENOENT(path);
             }
@@ -160,7 +163,7 @@ var JSDelivrRequest = /** @class */ (function (_super) {
             return cb(api_error_1.ApiError.ENOENT(path));
         }
         var stats;
-        if (file_index_1.isFileInode(inode)) {
+        if ((0, file_index_1.isFileInode)(inode)) {
             stats = inode.getData();
             // At this point, a non-opened file will still have default stats from the listing.
             if (stats.size < 0) {
@@ -176,7 +179,7 @@ var JSDelivrRequest = /** @class */ (function (_super) {
                 cb(null, node_fs_stats_1.default.clone(stats));
             }
         }
-        else if (file_index_1.isDirInode(inode)) {
+        else if ((0, file_index_1.isDirInode)(inode)) {
             stats = inode.getStats();
             cb(null, stats);
         }
@@ -190,14 +193,14 @@ var JSDelivrRequest = /** @class */ (function (_super) {
             throw api_error_1.ApiError.ENOENT(path);
         }
         var stats;
-        if (file_index_1.isFileInode(inode)) {
+        if ((0, file_index_1.isFileInode)(inode)) {
             stats = inode.getData();
             // At this point, a non-opened file will still have default stats from the listing.
             if (stats.size < 0) {
                 stats.size = this._requestFileSizeSync(path);
             }
         }
-        else if (file_index_1.isDirInode(inode)) {
+        else if ((0, file_index_1.isDirInode)(inode)) {
             stats = inode.getStats();
         }
         else {
@@ -216,7 +219,7 @@ var JSDelivrRequest = /** @class */ (function (_super) {
         if (inode === null) {
             return cb(api_error_1.ApiError.ENOENT(path));
         }
-        if (file_index_1.isFileInode(inode)) {
+        if ((0, file_index_1.isFileInode)(inode)) {
             var stats_1 = inode.getData();
             switch (flags.pathExistsAction()) {
                 case file_flag_1.ActionType.THROW_EXCEPTION:
@@ -257,7 +260,7 @@ var JSDelivrRequest = /** @class */ (function (_super) {
         if (inode === null) {
             throw api_error_1.ApiError.ENOENT(path);
         }
-        if (file_index_1.isFileInode(inode)) {
+        if ((0, file_index_1.isFileInode)(inode)) {
             var stats = inode.getData();
             switch (flags.pathExistsAction()) {
                 case file_flag_1.ActionType.THROW_EXCEPTION:
@@ -297,7 +300,7 @@ var JSDelivrRequest = /** @class */ (function (_super) {
         if (inode === null) {
             throw api_error_1.ApiError.ENOENT(path);
         }
-        else if (file_index_1.isDirInode(inode)) {
+        else if ((0, file_index_1.isDirInode)(inode)) {
             return inode.getListing();
         }
         else {
@@ -326,7 +329,7 @@ var JSDelivrRequest = /** @class */ (function (_super) {
             var fdCast = fd;
             var fdBuff = fdCast.getBuffer();
             if (encoding === null) {
-                cb(err, util_1.copyingSlice(fdBuff));
+                cb(err, (0, util_1.copyingSlice)(fdBuff));
             }
             else {
                 tryToString(fdBuff, encoding, cb);
@@ -343,7 +346,7 @@ var JSDelivrRequest = /** @class */ (function (_super) {
             var fdCast = fd;
             var fdBuff = fdCast.getBuffer();
             if (encoding === null) {
-                return util_1.copyingSlice(fdBuff);
+                return (0, util_1.copyingSlice)(fdBuff);
             }
             return fdBuff.toString(encoding);
         }
@@ -355,7 +358,7 @@ var JSDelivrRequest = /** @class */ (function (_super) {
         if (filePath.charAt(0) === '/') {
             filePath = filePath.slice(1);
         }
-        return "https://cdn.jsdelivr.net/npm/" + this.dependency + "@" + this.version + "/" + filePath;
+        return "https://cdn.jsdelivr.net/npm/".concat(this.dependency, "@").concat(this.version, "/").concat(filePath);
     };
     JSDelivrRequest.prototype._requestFileAsync = function (p, type, cb) {
         this._requestFileAsyncInternal(this._getHTTPPath(p), type, cb);

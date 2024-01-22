@@ -51,7 +51,7 @@ export interface MountableFileSystemOptions {
  * With no mounted file systems, `MountableFileSystem` acts as a simple `InMemory` filesystem.
  */
 export default class MountableFileSystem extends BaseFileSystem implements FileSystem {
-    static readonly Name: string;
+    static readonly Name = "MountableFileSystem";
     static readonly Options: FileSystemOptions;
     /**
      * Creates a MountableFileSystem instance with the given options.

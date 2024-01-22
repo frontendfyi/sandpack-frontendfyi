@@ -1,17 +1,21 @@
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ZipTOC = exports.EndOfCentralDirectory = exports.CentralDirectory = exports.DigitalSignature = exports.ArchiveExtraDataRecord = exports.DataDescriptor = exports.FileData = exports.FileHeader = exports.CompressionMethod = exports.ExternalFileAttributeType = void 0;
 var api_error_1 = require("../core/api_error");
 var node_fs_stats_1 = require("../core/node_fs_stats");
 var file_system_1 = require("../core/file_system");
@@ -55,7 +59,7 @@ var ExternalFileAttributeType;
     ExternalFileAttributeType[ExternalFileAttributeType["TANDEM"] = 17] = "TANDEM";
     ExternalFileAttributeType[ExternalFileAttributeType["OS_400"] = 18] = "OS_400";
     ExternalFileAttributeType[ExternalFileAttributeType["OSX"] = 19] = "OSX";
-})(ExternalFileAttributeType = exports.ExternalFileAttributeType || (exports.ExternalFileAttributeType = {}));
+})(ExternalFileAttributeType || (exports.ExternalFileAttributeType = ExternalFileAttributeType = {}));
 /**
  * 4.4.5
  */
@@ -77,7 +81,7 @@ var CompressionMethod;
     CompressionMethod[CompressionMethod["LZ77"] = 19] = "LZ77";
     CompressionMethod[CompressionMethod["WAVPACK"] = 97] = "WAVPACK";
     CompressionMethod[CompressionMethod["PPMD"] = 98] = "PPMD"; // PPMd version I, Rev 1
-})(CompressionMethod = exports.CompressionMethod || (exports.CompressionMethod = {}));
+})(CompressionMethod || (exports.CompressionMethod = CompressionMethod = {}));
 /**
  * Converts the input time and date in MS-DOS format into a JavaScript Date
  * object.
@@ -234,9 +238,9 @@ var FileData = /** @class */ (function () {
         else {
             var name_1 = CompressionMethod[compressionMethod];
             if (!name_1) {
-                name_1 = "Unknown: " + compressionMethod;
+                name_1 = "Unknown: ".concat(compressionMethod);
             }
-            throw new api_error_1.ApiError(api_error_1.ErrorCode.EINVAL, "Invalid compression method on file '" + this.header.fileName() + "': " + name_1);
+            throw new api_error_1.ApiError(api_error_1.ErrorCode.EINVAL, "Invalid compression method on file '".concat(this.header.fileName(), "': ").concat(name_1));
         }
     };
     FileData.prototype.getHeader = function () {
@@ -364,7 +368,7 @@ var CentralDirectory = /** @class */ (function () {
         this.data = data;
         // Sanity check.
         if (this.data.readUInt32LE(0) !== 0x02014b50) {
-            throw new api_error_1.ApiError(api_error_1.ErrorCode.EINVAL, "Invalid Zip file: Central directory record has invalid signature: " + this.data.readUInt32LE(0));
+            throw new api_error_1.ApiError(api_error_1.ErrorCode.EINVAL, "Invalid Zip file: Central directory record has invalid signature: ".concat(this.data.readUInt32LE(0)));
         }
         this._filename = this.produceFilename();
     }
@@ -482,7 +486,7 @@ var EndOfCentralDirectory = /** @class */ (function () {
     function EndOfCentralDirectory(data) {
         this.data = data;
         if (this.data.readUInt32LE(0) !== 0x06054b50) {
-            throw new api_error_1.ApiError(api_error_1.ErrorCode.EINVAL, "Invalid Zip file: End of central directory record has invalid signature: " + this.data.readUInt32LE(0));
+            throw new api_error_1.ApiError(api_error_1.ErrorCode.EINVAL, "Invalid Zip file: End of central directory record has invalid signature: ".concat(this.data.readUInt32LE(0)));
         }
     }
     EndOfCentralDirectory.prototype.diskNumber = function () { return this.data.readUInt16LE(4); };
@@ -671,7 +675,7 @@ var ZipFS = /** @class */ (function (_super) {
                 cdPtr += cd.totalSize();
                 cdEntries.push(cd);
             }
-            setImmediate_1.default(function () {
+            (0, setImmediate_1.default)(function () {
                 ZipFS._computeIndexResponsiveTrampoline(data, index, cdPtr, cdEnd, cb, cdEntries, eocd);
             });
         }
@@ -680,7 +684,7 @@ var ZipFS = /** @class */ (function (_super) {
         }
     };
     ZipFS.prototype.getName = function () {
-        return ZipFS.Name + (this.name !== '' ? " " + this.name : '');
+        return ZipFS.Name + (this.name !== '' ? " ".concat(this.name) : '');
     };
     /**
      * Get the CentralDirectory object for the given path.
@@ -690,21 +694,21 @@ var ZipFS = /** @class */ (function (_super) {
         if (inode === null) {
             throw api_error_1.ApiError.ENOENT(path);
         }
-        if (file_index_1.isFileInode(inode)) {
+        if ((0, file_index_1.isFileInode)(inode)) {
             return inode.getData();
         }
-        else if (file_index_1.isDirInode(inode)) {
+        else if ((0, file_index_1.isDirInode)(inode)) {
             return inode.getData();
         }
         else {
             // Should never occur.
-            throw api_error_1.ApiError.EPERM("Invalid inode: " + inode);
+            throw api_error_1.ApiError.EPERM("Invalid inode: ".concat(inode));
         }
     };
     ZipFS.prototype.getCentralDirectoryEntryAt = function (index) {
         var dirEntry = this._directoryEntries[index];
         if (!dirEntry) {
-            throw new RangeError("Invalid directory index: " + index + ".");
+            throw new RangeError("Invalid directory index: ".concat(index, "."));
         }
         return dirEntry;
     };
@@ -736,10 +740,10 @@ var ZipFS = /** @class */ (function (_super) {
             throw api_error_1.ApiError.ENOENT(path);
         }
         var stats;
-        if (file_index_1.isFileInode(inode)) {
+        if ((0, file_index_1.isFileInode)(inode)) {
             stats = inode.getData().getStats();
         }
-        else if (file_index_1.isDirInode(inode)) {
+        else if ((0, file_index_1.isDirInode)(inode)) {
             stats = inode.getStats();
         }
         else {
@@ -757,7 +761,7 @@ var ZipFS = /** @class */ (function (_super) {
         if (!inode) {
             throw api_error_1.ApiError.ENOENT(path);
         }
-        else if (file_index_1.isFileInode(inode)) {
+        else if ((0, file_index_1.isFileInode)(inode)) {
             var cdRecord = inode.getData();
             var stats = cdRecord.getStats();
             switch (flags.pathExistsAction()) {
@@ -780,7 +784,7 @@ var ZipFS = /** @class */ (function (_super) {
         if (!inode) {
             throw api_error_1.ApiError.ENOENT(path);
         }
-        else if (file_index_1.isDirInode(inode)) {
+        else if ((0, file_index_1.isDirInode)(inode)) {
             return inode.getListing();
         }
         else {
@@ -797,7 +801,7 @@ var ZipFS = /** @class */ (function (_super) {
             var fdCast = fd;
             var fdBuff = fdCast.getBuffer();
             if (encoding === null) {
-                return util_1.copyingSlice(fdBuff);
+                return (0, util_1.copyingSlice)(fdBuff);
             }
             return fdBuff.toString(encoding);
         }
@@ -823,9 +827,9 @@ var ZipFS = /** @class */ (function (_super) {
 }(file_system_1.SynchronousFileSystem));
 exports.default = ZipFS;
 ZipFS.RegisterDecompressionMethod(CompressionMethod.DEFLATE, function (data, compressedSize, uncompressedSize) {
-    return util_1.arrayish2Buffer(inflateRaw(data.slice(0, compressedSize), { chunkSize: uncompressedSize }));
+    return (0, util_1.arrayish2Buffer)(inflateRaw(data.slice(0, compressedSize), { chunkSize: uncompressedSize }));
 });
 ZipFS.RegisterDecompressionMethod(CompressionMethod.STORED, function (data, compressedSize, uncompressedSize) {
-    return util_1.copyingSlice(data, 0, uncompressedSize);
+    return (0, util_1.copyingSlice)(data, 0, uncompressedSize);
 });
 //# sourceMappingURL=ZipFS.js.map

@@ -1,4 +1,5 @@
 /// <reference types="node" />
+/// <reference types="node" />
 import * as fs from 'fs';
 /**
  * Indicates the type of the given file. Applied to 'mode'.
@@ -41,10 +42,10 @@ export default class Stats implements fs.Stats {
     ctimeMs: number;
     birthtimeMs: number;
     size: number;
-    readonly atime: Date;
-    readonly mtime: Date;
-    readonly ctime: Date;
-    readonly birthtime: Date;
+    get atime(): Date;
+    get mtime(): Date;
+    get ctime(): Date;
+    get birthtime(): Date;
     /**
      * Provides information about a particular entry in the file system.
      * @param itemType Type of the item (FILE, DIRECTORY, SYMLINK, or SOCKET)

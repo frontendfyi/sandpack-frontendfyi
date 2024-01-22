@@ -42,7 +42,7 @@ export interface HTTPRequestOptions {
  * *This example has the folder `/home/jvilk` with subfile `someFile.txt` and subfolder `someDir`.*
  */
 export default class BundledHTTPRequest extends BaseFileSystem implements FileSystem {
-    static readonly Name: string;
+    static readonly Name = "BundledHTTPRequest";
     static readonly Options: FileSystemOptions;
     /**
      * Construct an HTTPRequest file system backend with the given options.

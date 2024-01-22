@@ -25,7 +25,7 @@ export interface FolderAdapterOptions {
  * ```
  */
 export default class FolderAdapter extends BaseFileSystem implements FileSystem {
-    static readonly Name: string;
+    static readonly Name = "FolderAdapter";
     static readonly Options: FileSystemOptions;
     /**
      * Creates a FolderAdapter instance with the given options.

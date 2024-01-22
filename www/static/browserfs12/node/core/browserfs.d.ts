@@ -3,6 +3,8 @@
  * Due to limitations in typedoc, we document these functions in ./typedoc.ts.
  */
 /// <reference types="node" />
+/// <reference types="node" />
+/// <reference types="node" />
 import * as buffer from 'buffer';
 import fs from './node_fs';
 import * as path from 'path';

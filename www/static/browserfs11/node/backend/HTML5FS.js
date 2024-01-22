@@ -1,17 +1,21 @@
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.HTML5FSFile = void 0;
 var preload_file_1 = require("../generic/preload_file");
 var file_system_1 = require("../core/file_system");
 var api_error_1 = require("../core/api_error");
@@ -49,7 +53,7 @@ function _requestQuota(type, size, success, errorCallback) {
                 navigator.webkitTemporaryStorage.requestQuota(size, success, errorCallback);
                 break;
             default:
-                errorCallback(new TypeError("Invalid storage type: " + type));
+                errorCallback(new TypeError("Invalid storage type: ".concat(type)));
                 break;
         }
     }
@@ -68,6 +72,7 @@ function _toArray(list) {
  * @url https://developer.mozilla.org/en-US/docs/Web/API/DOMError
  * @hidden
  */
+// @ts-ignore
 function convertError(err, p, expectedDir) {
     switch (err.name) {
         /* The user agent failed to create a file or directory due to the existence of a file or
@@ -127,7 +132,7 @@ var HTML5FSFile = /** @class */ (function (_super) {
         }
         this._entry.createWriter(function (writer) {
             var buffer = _this.getBuffer();
-            var blob = new Blob([util_1.buffer2ArrayBuffer(buffer)]);
+            var blob = new Blob([(0, util_1.buffer2ArrayBuffer)(buffer)]);
             var length = blob.size;
             writer.onwriteend = function (err) {
                 writer.onwriteend = null;
@@ -232,7 +237,8 @@ var HTML5FS = /** @class */ (function (_super) {
                 };
                 // Loop through the entries and remove them, then call the callback
                 // when they're all finished.
-                async_1.each(entries, deleteEntry, finished);
+                // @ts-ignore
+                (0, async_1.each)(entries, deleteEntry, finished);
             }
         });
     };
@@ -411,7 +417,7 @@ var HTML5FS = /** @class */ (function (_super) {
     HTML5FS.prototype._makeFile = function (path, entry, flag, stat, data) {
         if (data === void 0) { data = new ArrayBuffer(0); }
         var stats = new node_fs_stats_1.default(node_fs_stats_1.FileType.FILE, stat.size);
-        var buffer = util_1.arrayBuffer2Buffer(data);
+        var buffer = (0, util_1.arrayBuffer2Buffer)(data);
         return new HTML5FSFile(this, entry, path, flag, stats, buffer);
     };
     /**

@@ -1,3 +1,4 @@
+"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var FS_1 = require("./FS");
 // Manually export the individual public functions of fs.

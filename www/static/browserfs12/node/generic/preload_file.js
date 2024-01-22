@@ -1,17 +1,21 @@
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.NoSyncFile = void 0;
 var file_1 = require("../core/file");
 var node_fs_stats_1 = require("../core/node_fs_stats");
 var api_error_1 = require("../core/api_error");
@@ -50,13 +54,13 @@ var PreloadFile = /** @class */ (function (_super) {
         _this._path = _path;
         _this._flag = _flag;
         _this._stat = _stat;
-        _this._buffer = contents ? contents : util_1.emptyBuffer();
+        _this._buffer = contents ? contents : (0, util_1.emptyBuffer)();
         // Note: This invariant is *not* maintained once the file starts getting
         // modified.
         // Note: Only actually matters if file is readable, as writeable modes may
         // truncate/append to file.
         if (_this._stat.size !== _this._buffer.length && _this._flag.isReadable()) {
-            throw new Error("Invalid buffer: Buffer is " + _this._buffer.length + " long, yet Stats object specifies that file is " + _this._stat.size + " long.");
+            throw new Error("Invalid buffer: Buffer is ".concat(_this._buffer.length, " long, yet Stats object specifies that file is ").concat(_this._stat.size, " long."));
         }
         return _this;
     }

@@ -1,11 +1,13 @@
+"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.checkOptions = exports.bufferValidator = exports.emptyBuffer = exports.copyingSlice = exports.arrayBuffer2Buffer = exports.uint8Array2Buffer = exports.arrayish2Buffer = exports.buffer2Uint8array = exports.buffer2ArrayBuffer = exports.mkdirpSync = exports.fail = exports.isWebWorker = exports.isIE = exports.deprecationMessage = void 0;
 var api_error_1 = require("./api_error");
 var levenshtein_1 = require("./levenshtein");
 var path = require("path");
 function deprecationMessage(print, fsName, opts) {
     if (print) {
         // tslint:disable-next-line:no-console
-        console.warn("[" + fsName + "] Direct file system constructor usage is deprecated for this file system, and will be removed in the next major version. Please use the '" + fsName + ".Create(" + JSON.stringify(opts) + ", callback)' method instead. See https://github.com/jvilk/BrowserFS/issues/176 for more details.");
+        console.warn("[".concat(fsName, "] Direct file system constructor usage is deprecated for this file system, and will be removed in the next major version. Please use the '").concat(fsName, ".Create(").concat(JSON.stringify(opts), ", callback)' method instead. See https://github.com/jvilk/BrowserFS/issues/176 for more details."));
         // tslint:enable-next-line:no-console
     }
 }
@@ -122,7 +124,7 @@ function copyingSlice(buff, start, end) {
     if (start === void 0) { start = 0; }
     if (end === void 0) { end = buff.length; }
     if (start < 0 || end < 0 || end > buff.length || start > end) {
-        throw new TypeError("Invalid slice bounds on buffer of length " + buff.length + ": [" + start + ", " + end + "]");
+        throw new TypeError("Invalid slice bounds on buffer of length ".concat(buff.length, ": [").concat(start, ", ").concat(end, "]"));
     }
     if (buff.length === 0) {
         // Avoid s0 corner case in ArrayBuffer case.
@@ -204,14 +206,14 @@ function checkOptions(fsType, opts, cb) {
                     // Any incorrect options provided? Which ones are close to the provided one?
                     // (edit distance 5 === close)
                     var incorrectOptions = Object.keys(opts).filter(function (o) { return !(o in optsInfo); }).map(function (a) {
-                        return { str: a, distance: levenshtein_1.default(optName, a) };
+                        return { str: a, distance: (0, levenshtein_1.default)(optName, a) };
                     }).filter(function (o) { return o.distance < 5; }).sort(function (a, b) { return a.distance - b.distance; });
                     // Validators may be synchronous.
                     if (callbackCalled) {
                         return { value: void 0 };
                     }
                     callbackCalled = true;
-                    return { value: cb(new api_error_1.ApiError(api_error_1.ErrorCode.EINVAL, "[" + fsName + "] Required option '" + optName + "' not provided." + (incorrectOptions.length > 0 ? " You provided unrecognized option '" + incorrectOptions[0].str + "'; perhaps you meant to type '" + optName + "'." : '') + "\nOption description: " + opt.description)) };
+                    return { value: cb(new api_error_1.ApiError(api_error_1.ErrorCode.EINVAL, "[".concat(fsName, "] Required option '").concat(optName, "' not provided.").concat(incorrectOptions.length > 0 ? " You provided unrecognized option '".concat(incorrectOptions[0].str, "'; perhaps you meant to type '").concat(optName, "'.") : '', "\nOption description: ").concat(opt.description))) };
                 }
                 // Else: Optional option, not provided. That is OK.
             }
@@ -230,7 +232,7 @@ function checkOptions(fsType, opts, cb) {
                         return { value: void 0 };
                     }
                     callbackCalled = true;
-                    return { value: cb(new api_error_1.ApiError(api_error_1.ErrorCode.EINVAL, "[" + fsName + "] Value provided for option " + optName + " is not the proper type. Expected " + (Array.isArray(opt.type) ? "one of {" + opt.type.join(", ") + "}" : opt.type) + ", but received " + typeof (providedValue) + "\nOption description: " + opt.description)) };
+                    return { value: cb(new api_error_1.ApiError(api_error_1.ErrorCode.EINVAL, "[".concat(fsName, "] Value provided for option ").concat(optName, " is not the proper type. Expected ").concat(Array.isArray(opt.type) ? "one of {".concat(opt.type.join(", "), "}") : opt.type, ", but received ").concat(typeof (providedValue), "\nOption description: ").concat(opt.description))) };
                 }
                 else if (opt.validator) {
                     pendingValidators++;

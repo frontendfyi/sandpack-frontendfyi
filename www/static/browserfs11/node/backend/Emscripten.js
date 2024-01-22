@@ -1,17 +1,21 @@
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.EmscriptenFile = void 0;
 var file_system_1 = require("../core/file_system");
 var node_fs_stats_1 = require("../core/node_fs_stats");
 var file_1 = require("../core/file");
@@ -113,7 +117,7 @@ var EmscriptenFile = /** @class */ (function (_super) {
     };
     EmscriptenFile.prototype.writeSync = function (buffer, offset, length, position) {
         try {
-            var u8 = util_1.buffer2Uint8array(buffer);
+            var u8 = (0, util_1.buffer2Uint8array)(buffer);
             // Emscripten is particular about what position is set to.
             var emPosition = position === null ? undefined : position;
             return this._FS.write(this._stream, u8, offset, length, emPosition);
@@ -132,7 +136,7 @@ var EmscriptenFile = /** @class */ (function (_super) {
     };
     EmscriptenFile.prototype.readSync = function (buffer, offset, length, position) {
         try {
-            var u8 = util_1.buffer2Uint8array(buffer);
+            var u8 = (0, util_1.buffer2Uint8array)(buffer);
             // Emscripten is particular about what position is set to.
             var emPosition = position === null ? undefined : position;
             return this._FS.read(this._stream, u8, offset, length, emPosition);
@@ -308,7 +312,7 @@ var EmscriptenFileSystem = /** @class */ (function (_super) {
     EmscriptenFileSystem.prototype.readFileSync = function (p, encoding, flag) {
         try {
             var data = this._FS.readFile(p, { flags: flag.getFlagString() });
-            var buff = util_1.uint8Array2Buffer(data);
+            var buff = (0, util_1.uint8Array2Buffer)(data);
             if (encoding) {
                 return buff.toString(encoding);
             }
@@ -325,7 +329,7 @@ var EmscriptenFileSystem = /** @class */ (function (_super) {
             if (encoding) {
                 data = Buffer.from(data, encoding);
             }
-            var u8 = util_1.buffer2Uint8array(data);
+            var u8 = (0, util_1.buffer2Uint8array)(data);
             this._FS.writeFile(p, u8, { flags: flag.getFlagString(), encoding: 'binary' });
             this._FS.chmod(p, mode);
         }
@@ -384,7 +388,7 @@ var EmscriptenFileSystem = /** @class */ (function (_super) {
             return node_fs_stats_1.FileType.SYMLINK;
         }
         else {
-            throw api_error_1.ApiError.EPERM("Invalid mode: " + mode);
+            throw api_error_1.ApiError.EPERM("Invalid mode: ".concat(mode));
         }
     };
     EmscriptenFileSystem.Name = "EmscriptenFileSystem";

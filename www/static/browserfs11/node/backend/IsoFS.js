@@ -1,11 +1,14 @@
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -82,37 +85,37 @@ function constructSystemUseEntry(bigData, i) {
     var data = bigData.slice(i);
     var sue = new SystemUseEntry(data);
     switch (sue.signatureWord()) {
-        case 17221 /* CE */:
+        case 17221 /* SystemUseEntrySignatures.CE */:
             return new CEEntry(data);
-        case 20548 /* PD */:
+        case 20548 /* SystemUseEntrySignatures.PD */:
             return new PDEntry(data);
-        case 21328 /* SP */:
+        case 21328 /* SystemUseEntrySignatures.SP */:
             return new SPEntry(data);
-        case 21332 /* ST */:
+        case 21332 /* SystemUseEntrySignatures.ST */:
             return new STEntry(data);
-        case 17746 /* ER */:
+        case 17746 /* SystemUseEntrySignatures.ER */:
             return new EREntry(data);
-        case 17747 /* ES */:
+        case 17747 /* SystemUseEntrySignatures.ES */:
             return new ESEntry(data);
-        case 20568 /* PX */:
+        case 20568 /* SystemUseEntrySignatures.PX */:
             return new PXEntry(data);
-        case 20558 /* PN */:
+        case 20558 /* SystemUseEntrySignatures.PN */:
             return new PNEntry(data);
-        case 21324 /* SL */:
+        case 21324 /* SystemUseEntrySignatures.SL */:
             return new SLEntry(data);
-        case 20045 /* NM */:
+        case 20045 /* SystemUseEntrySignatures.NM */:
             return new NMEntry(data);
-        case 17228 /* CL */:
+        case 17228 /* SystemUseEntrySignatures.CL */:
             return new CLEntry(data);
-        case 20556 /* PL */:
+        case 20556 /* SystemUseEntrySignatures.PL */:
             return new PLEntry(data);
-        case 21061 /* RE */:
+        case 21061 /* SystemUseEntrySignatures.RE */:
             return new REEntry(data);
-        case 21574 /* TF */:
+        case 21574 /* SystemUseEntrySignatures.TF */:
             return new TFEntry(data);
-        case 21318 /* SF */:
+        case 21318 /* SystemUseEntrySignatures.SF */:
             return new SFEntry(data);
-        case 21074 /* RR */:
+        case 21074 /* SystemUseEntrySignatures.RR */:
             return new RREntry(data);
         default:
             return sue;
@@ -273,7 +276,7 @@ var PrimaryVolumeDescriptor = /** @class */ (function (_super) {
     __extends(PrimaryVolumeDescriptor, _super);
     function PrimaryVolumeDescriptor(data) {
         var _this = _super.call(this, data) || this;
-        if (_this.type() !== 1 /* PrimaryVolumeDescriptor */) {
+        if (_this.type() !== 1 /* VolumeDescriptorTypeCode.PrimaryVolumeDescriptor */) {
             throw new api_error_1.ApiError(api_error_1.ErrorCode.EIO, "Invalid primary volume descriptor.");
         }
         return _this;
@@ -296,7 +299,7 @@ var SupplementaryVolumeDescriptor = /** @class */ (function (_super) {
     __extends(SupplementaryVolumeDescriptor, _super);
     function SupplementaryVolumeDescriptor(data) {
         var _this = _super.call(this, data) || this;
-        if (_this.type() !== 2 /* SupplementaryVolumeDescriptor */) {
+        if (_this.type() !== 2 /* VolumeDescriptorTypeCode.SupplementaryVolumeDescriptor */) {
             throw new api_error_1.ApiError(api_error_1.ErrorCode.EIO, "Invalid supplementary volume descriptor.");
         }
         var escapeSequence = _this.escapeSequence();
@@ -305,7 +308,7 @@ var SupplementaryVolumeDescriptor = /** @class */ (function (_super) {
         // We ignore it.
         if (escapeSequence[0] !== 0x25 || escapeSequence[1] !== 0x2F ||
             (third !== 0x40 && third !== 0x43 && third !== 0x45)) {
-            throw new api_error_1.ApiError(api_error_1.ErrorCode.EIO, "Unrecognized escape sequence for SupplementaryVolumeDescriptor: " + escapeSequence.toString());
+            throw new api_error_1.ApiError(api_error_1.ErrorCode.EIO, "Unrecognized escape sequence for SupplementaryVolumeDescriptor: ".concat(escapeSequence.toString()));
         }
         return _this;
     }
@@ -412,7 +415,7 @@ var DirectoryRecord = /** @class */ (function () {
         }
     };
     DirectoryRecord.prototype.isDirectory = function (isoData) {
-        var rv = Boolean(this.fileFlags() && 2 /* Directory */);
+        var rv = Boolean(this.fileFlags() && 2 /* FileFlags.Directory */);
         // If it lacks the Directory flag, it may still be a directory if we've exceeded the directory
         // depth limit. Rock Ridge marks these as files and adds a special attribute.
         if (!rv && this.hasRockRidge()) {
@@ -434,18 +437,18 @@ var DirectoryRecord = /** @class */ (function () {
                 for (var _a = 0, components_1 = components; _a < components_1.length; _a++) {
                     var component = components_1[_a];
                     var flags = component.flags();
-                    if (flags & 2 /* CURRENT */) {
+                    if (flags & 2 /* SLComponentFlags.CURRENT */) {
                         p += "./";
                     }
-                    else if (flags & 4 /* PARENT */) {
+                    else if (flags & 4 /* SLComponentFlags.PARENT */) {
                         p += "../";
                     }
-                    else if (flags & 8 /* ROOT */) {
+                    else if (flags & 8 /* SLComponentFlags.ROOT */) {
                         p += "/";
                     }
                     else {
                         p += component.content(getStr);
-                        if (!(flags & 1 /* CONTINUE */)) {
+                        if (!(flags & 1 /* SLComponentFlags.CONTINUE */)) {
                             p += '/';
                         }
                     }
@@ -490,7 +493,7 @@ var DirectoryRecord = /** @class */ (function () {
     };
     DirectoryRecord.prototype._rockRidgeFilename = function (isoData) {
         var nmEntries = this.getSUEntries(isoData).filter(function (e) { return e instanceof NMEntry; });
-        if (nmEntries.length === 0 || nmEntries[0].flags() & (2 /* CURRENT */ | 4 /* PARENT */)) {
+        if (nmEntries.length === 0 || nmEntries[0].flags() & (2 /* NMFlags.CURRENT */ | 4 /* NMFlags.PARENT */)) {
             return null;
         }
         var str = '';
@@ -498,7 +501,7 @@ var DirectoryRecord = /** @class */ (function () {
         for (var _i = 0, nmEntries_1 = nmEntries; _i < nmEntries_1.length; _i++) {
             var e = nmEntries_1[_i];
             str += e.name(getString);
-            if (!(e.flags() & 1 /* CONTINUE */)) {
+            if (!(e.flags() & 1 /* NMFlags.CONTINUE */)) {
                 break;
             }
         }
@@ -894,7 +897,7 @@ var TFEntry = /** @class */ (function (_super) {
         return this._data[4];
     };
     TFEntry.prototype.creation = function () {
-        if (this.flags() & 1 /* CREATION */) {
+        if (this.flags() & 1 /* TFFlags.CREATION */) {
             if (this._longFormDates()) {
                 return getDate(this._data, 5);
             }
@@ -907,9 +910,9 @@ var TFEntry = /** @class */ (function (_super) {
         }
     };
     TFEntry.prototype.modify = function () {
-        if (this.flags() & 2 /* MODIFY */) {
-            var previousDates = (this.flags() & 1 /* CREATION */) ? 1 : 0;
-            if (this._longFormDates) {
+        if (this.flags() & 2 /* TFFlags.MODIFY */) {
+            var previousDates = (this.flags() & 1 /* TFFlags.CREATION */) ? 1 : 0;
+            if (this._longFormDates()) {
                 return getDate(this._data, 5 + (previousDates * 17));
             }
             else {
@@ -921,10 +924,10 @@ var TFEntry = /** @class */ (function (_super) {
         }
     };
     TFEntry.prototype.access = function () {
-        if (this.flags() & 4 /* ACCESS */) {
-            var previousDates = (this.flags() & 1 /* CREATION */) ? 1 : 0;
-            previousDates += (this.flags() & 2 /* MODIFY */) ? 1 : 0;
-            if (this._longFormDates) {
+        if (this.flags() & 4 /* TFFlags.ACCESS */) {
+            var previousDates = (this.flags() & 1 /* TFFlags.CREATION */) ? 1 : 0;
+            previousDates += (this.flags() & 2 /* TFFlags.MODIFY */) ? 1 : 0;
+            if (this._longFormDates()) {
                 return getDate(this._data, 5 + (previousDates * 17));
             }
             else {
@@ -936,11 +939,11 @@ var TFEntry = /** @class */ (function (_super) {
         }
     };
     TFEntry.prototype.backup = function () {
-        if (this.flags() & 16 /* BACKUP */) {
-            var previousDates = (this.flags() & 1 /* CREATION */) ? 1 : 0;
-            previousDates += (this.flags() & 2 /* MODIFY */) ? 1 : 0;
-            previousDates += (this.flags() & 4 /* ACCESS */) ? 1 : 0;
-            if (this._longFormDates) {
+        if (this.flags() & 16 /* TFFlags.BACKUP */) {
+            var previousDates = (this.flags() & 1 /* TFFlags.CREATION */) ? 1 : 0;
+            previousDates += (this.flags() & 2 /* TFFlags.MODIFY */) ? 1 : 0;
+            previousDates += (this.flags() & 4 /* TFFlags.ACCESS */) ? 1 : 0;
+            if (this._longFormDates()) {
                 return getDate(this._data, 5 + (previousDates * 17));
             }
             else {
@@ -952,12 +955,12 @@ var TFEntry = /** @class */ (function (_super) {
         }
     };
     TFEntry.prototype.expiration = function () {
-        if (this.flags() & 32 /* EXPIRATION */) {
-            var previousDates = (this.flags() & 1 /* CREATION */) ? 1 : 0;
-            previousDates += (this.flags() & 2 /* MODIFY */) ? 1 : 0;
-            previousDates += (this.flags() & 4 /* ACCESS */) ? 1 : 0;
-            previousDates += (this.flags() & 16 /* BACKUP */) ? 1 : 0;
-            if (this._longFormDates) {
+        if (this.flags() & 32 /* TFFlags.EXPIRATION */) {
+            var previousDates = (this.flags() & 1 /* TFFlags.CREATION */) ? 1 : 0;
+            previousDates += (this.flags() & 2 /* TFFlags.MODIFY */) ? 1 : 0;
+            previousDates += (this.flags() & 4 /* TFFlags.ACCESS */) ? 1 : 0;
+            previousDates += (this.flags() & 16 /* TFFlags.BACKUP */) ? 1 : 0;
+            if (this._longFormDates()) {
                 return getDate(this._data, 5 + (previousDates * 17));
             }
             else {
@@ -969,13 +972,13 @@ var TFEntry = /** @class */ (function (_super) {
         }
     };
     TFEntry.prototype.effective = function () {
-        if (this.flags() & 64 /* EFFECTIVE */) {
-            var previousDates = (this.flags() & 1 /* CREATION */) ? 1 : 0;
-            previousDates += (this.flags() & 2 /* MODIFY */) ? 1 : 0;
-            previousDates += (this.flags() & 4 /* ACCESS */) ? 1 : 0;
-            previousDates += (this.flags() & 16 /* BACKUP */) ? 1 : 0;
-            previousDates += (this.flags() & 32 /* EXPIRATION */) ? 1 : 0;
-            if (this._longFormDates) {
+        if (this.flags() & 64 /* TFFlags.EFFECTIVE */) {
+            var previousDates = (this.flags() & 1 /* TFFlags.CREATION */) ? 1 : 0;
+            previousDates += (this.flags() & 2 /* TFFlags.MODIFY */) ? 1 : 0;
+            previousDates += (this.flags() & 4 /* TFFlags.ACCESS */) ? 1 : 0;
+            previousDates += (this.flags() & 16 /* TFFlags.BACKUP */) ? 1 : 0;
+            previousDates += (this.flags() & 32 /* TFFlags.EXPIRATION */) ? 1 : 0;
+            if (this._longFormDates()) {
                 return getDate(this._data, 5 + (previousDates * 17));
             }
             else {
@@ -987,7 +990,7 @@ var TFEntry = /** @class */ (function (_super) {
         }
     };
     TFEntry.prototype._longFormDates = function () {
-        return Boolean(this.flags() && 128 /* LONG_FORM */);
+        return Boolean(this.flags() && 128 /* TFFlags.LONG_FORM */);
     };
     return TFEntry;
 }(SystemUseEntry));
@@ -1021,7 +1024,7 @@ var Directory = /** @class */ (function () {
         this._record = record;
         var i = record.lba();
         var iLimit = i + record.dataLength();
-        if (!(record.fileFlags() & 2 /* Directory */)) {
+        if (!(record.fileFlags() & 2 /* FileFlags.Directory */)) {
             // Must have a CL entry.
             var cl = record.getSUEntries(isoData).filter(function (e) { return e instanceof CLEntry; })[0];
             i = cl.childDirectoryLba() * 2048;
@@ -1122,13 +1125,13 @@ var IsoFS = /** @class */ (function (_super) {
             var slice = data.slice(i);
             var vd = new VolumeDescriptor(slice);
             switch (vd.type()) {
-                case 1 /* PrimaryVolumeDescriptor */:
+                case 1 /* VolumeDescriptorTypeCode.PrimaryVolumeDescriptor */:
                     candidateVDs.push(new PrimaryVolumeDescriptor(slice));
                     break;
-                case 2 /* SupplementaryVolumeDescriptor */:
+                case 2 /* VolumeDescriptorTypeCode.SupplementaryVolumeDescriptor */:
                     candidateVDs.push(new SupplementaryVolumeDescriptor(slice));
                     break;
-                case 255 /* VolumeDescriptorSetTerminator */:
+                case 255 /* VolumeDescriptorTypeCode.VolumeDescriptorSetTerminator */:
                     vdTerminatorFound = true;
                     break;
             }
@@ -1139,7 +1142,7 @@ var IsoFS = /** @class */ (function (_super) {
         }
         candidateVDs.forEach(function (v) {
             // Take an SVD over a PVD.
-            if (!_this._pvd || _this._pvd.type() !== 2 /* SupplementaryVolumeDescriptor */) {
+            if (!_this._pvd || _this._pvd.type() !== 2 /* VolumeDescriptorTypeCode.SupplementaryVolumeDescriptor */) {
                 _this._pvd = v;
             }
         });
@@ -1162,7 +1165,7 @@ var IsoFS = /** @class */ (function (_super) {
         return true;
     };
     IsoFS.prototype.getName = function () {
-        var name = "IsoFS" + this._name + (this._pvd ? "-" + this._pvd.name() : '');
+        var name = "IsoFS".concat(this._name).concat(this._pvd ? "-".concat(this._pvd.name()) : '');
         if (this._root && this._root.hasRockRidge()) {
             name += "-RockRidge";
         }
@@ -1244,7 +1247,7 @@ var IsoFS = /** @class */ (function (_super) {
             var fdCast = fd;
             var fdBuff = fdCast.getBuffer();
             if (encoding === null) {
-                return util_1.copyingSlice(fdBuff);
+                return (0, util_1.copyingSlice)(fdBuff);
             }
             return fdBuff.toString(encoding);
         }
@@ -1298,13 +1301,13 @@ var IsoFS = /** @class */ (function (_super) {
                     }
                     else if (entry instanceof TFEntry) {
                         var flags = entry.flags();
-                        if (flags & 4 /* ACCESS */) {
+                        if (flags & 4 /* TFFlags.ACCESS */) {
                             atime = entry.access().getTime();
                         }
-                        if (flags & 2 /* MODIFY */) {
+                        if (flags & 2 /* TFFlags.MODIFY */) {
                             mtime = entry.modify().getTime();
                         }
-                        if (flags & 1 /* CREATION */) {
+                        if (flags & 1 /* TFFlags.CREATION */) {
                             ctime = entry.creation().getTime();
                         }
                     }

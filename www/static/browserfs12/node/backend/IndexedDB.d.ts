@@ -41,7 +41,7 @@ export interface IndexedDBFileSystemOptions {
  * A file system that uses the IndexedDB key value file system.
  */
 export default class IndexedDBFileSystem extends AsyncKeyValueFileSystem {
-    static readonly Name: string;
+    static readonly Name = "IndexedDB";
     static readonly Options: FileSystemOptions;
     /**
      * Constructs an IndexedDB file system with the given options.

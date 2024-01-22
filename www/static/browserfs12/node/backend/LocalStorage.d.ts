@@ -17,7 +17,7 @@ export declare class LocalStorageStore implements SyncKeyValueStore, SimpleSyncS
  * LocalStorageStore to our SyncKeyValueFileSystem.
  */
 export default class LocalStorageFileSystem extends SyncKeyValueFileSystem {
-    static readonly Name: string;
+    static readonly Name = "LocalStorage";
     static readonly Options: FileSystemOptions;
     /**
      * Creates a LocalStorageFileSystem instance.

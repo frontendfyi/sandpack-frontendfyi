@@ -40,7 +40,7 @@ export interface DynamicHTTPRequestOptions {
  * *This example has the folder `/home/jvilk` with subfile `someFile.txt` and subfolder `someDir`.*
  */
 export default class DynamicHTTPRequest extends BaseFileSystem implements FileSystem {
-    static readonly Name: string;
+    static readonly Name = "DynamicHTTPRequest";
     static readonly Options: FileSystemOptions;
     /**
      * Construct an DynamicHTTPRequest file system backend with the given options.

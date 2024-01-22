@@ -1,4 +1,5 @@
 /// <reference types="node" />
+/// <reference types="node" />
 import * as _fs from 'fs';
 import { ApiError } from './api_error';
 import { FileSystem, BFSOneArgCallback, BFSCallback, BFSThreeArgCallback } from './file_system';

@@ -1,5 +1,6 @@
 #! /usr/bin/env node
-exports.__esModule = true;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var fs = require("fs");
 var path = require("path");
 var parser = require('gitignore-parser');
@@ -18,7 +19,7 @@ function rdSync(dpath, tree) {
         if (ignoreFiles.indexOf(file) !== -1 || file[0] === '.') {
             return;
         }
-        var fpath = dpath + "/" + file;
+        var fpath = "".concat(dpath, "/").concat(file);
         if (vscodeignore && vscodeignore.denies(fpath.replace(vscodeignorePath, ''))) {
             return;
         }

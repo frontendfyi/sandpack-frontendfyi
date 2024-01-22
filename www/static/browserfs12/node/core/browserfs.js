@@ -1,8 +1,10 @@
+"use strict";
 /**
  * BrowserFS's main module. This is exposed in the browser via the BrowserFS global.
  * Due to limitations in typedoc, we document these functions in ./typedoc.ts.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.setImmediate = exports.Errors = exports.FileSystem = exports.EmscriptenFS = exports.getFileSystem = exports.configure = exports.initialize = exports.BFSRequire = exports.registerFileSystem = exports.install = void 0;
 var buffer = require("buffer");
 var node_fs_1 = require("./node_fs");
 var path = require("path");
@@ -104,7 +106,7 @@ function getFileSystem(config, cb) {
             called = true;
             var fsc = backends_1.default[fsName];
             if (!fsc) {
-                cb(new Errors.ApiError(Errors.ErrorCode.EPERM, "File system " + fsName + " is not available in BrowserFS."));
+                cb(new Errors.ApiError(Errors.ErrorCode.EPERM, "File system ".concat(fsName, " is not available in BrowserFS.")));
             }
             else {
                 fsc.Create(options, cb);

@@ -1,4 +1,6 @@
+"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BaseFile = void 0;
 var api_error_1 = require("./api_error");
 /**
  * Base class that contains shared implementations of functions for the file

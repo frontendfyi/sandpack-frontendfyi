@@ -1,3 +1,4 @@
+"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var AsyncMirror_1 = require("../backend/AsyncMirror");
 var BundledHTTPRequest_1 = require("../backend/BundledHTTPRequest");
@@ -36,7 +37,7 @@ var util_1 = require("./util");
                 create.call(fsType, normalizedOpts, normalizedCb);
             }
         }
-        util_1.checkOptions(fsType, normalizedOpts, wrappedCb);
+        (0, util_1.checkOptions)(fsType, normalizedOpts, wrappedCb);
     };
 });
 /**

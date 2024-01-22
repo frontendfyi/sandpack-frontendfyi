@@ -22,7 +22,7 @@ export interface ICodeSandboxFileSystemOptions {
     manager: IManager;
 }
 export default class CodeSandboxFS extends SynchronousFileSystem implements FileSystem {
-    static readonly Name: string;
+    static readonly Name = "CodeSandboxFS";
     static readonly Options: FileSystemOptions;
     /**
      * Creates an InMemoryFileSystem instance.

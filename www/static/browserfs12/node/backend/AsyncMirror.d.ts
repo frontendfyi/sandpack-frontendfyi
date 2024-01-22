@@ -52,7 +52,7 @@ export interface AsyncMirrorOptions {
  * ```
  */
 export default class AsyncMirror extends SynchronousFileSystem implements FileSystem {
-    static readonly Name: string;
+    static readonly Name = "AsyncMirror";
     static readonly Options: FileSystemOptions;
     /**
      * Constructs and initializes an AsyncMirror file system with the given options.

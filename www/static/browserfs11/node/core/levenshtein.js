@@ -1,3 +1,4 @@
+"use strict";
 /*
  * Levenshtein distance, from the `js-levenshtein` NPM module.
  * Copied here to avoid complexity of adding another CommonJS module dependency.

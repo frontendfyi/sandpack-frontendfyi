@@ -18,7 +18,7 @@ export declare class InMemoryStore implements SyncKeyValueStore, SimpleSyncStore
  * Files are not persisted across page loads.
  */
 export default class InMemoryFileSystem extends SyncKeyValueFileSystem {
-    static readonly Name: string;
+    static readonly Name = "InMemory";
     static readonly Options: FileSystemOptions;
     /**
      * Creates an InMemoryFileSystem instance.

@@ -8,13 +8,13 @@ export interface IModule {
     updatedAt: string;
     insertedAt: string;
 }
-export declare type IFile = IModule & {
+export type IFile = IModule & {
     code: string | undefined;
     savedCode: string | null;
     isBinary: boolean;
     type: 'file';
 };
-export declare type IDirectory = IModule & {
+export type IDirectory = IModule & {
     type: 'directory';
 };
 export interface IManager {
@@ -27,7 +27,7 @@ export interface ICodeSandboxFileSystemOptions {
     api: IManager;
 }
 export default class CodeSandboxEditorFS extends SynchronousFileSystem implements FileSystem {
-    static readonly Name: string;
+    static readonly Name = "CodeSandboxEditorFS";
     static readonly Options: FileSystemOptions;
     /**
      * Creates an InMemoryFileSystem instance.
