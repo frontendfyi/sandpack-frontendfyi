@@ -7,15 +7,15 @@
 .loading {
   width: 100%;
   height: 100dvh;
+  display: grid;
+  place-items: center;
 }
 
 .loading::before {
   content: '';
-  position: absolute;
-  inset: 0;
-  width: 16px;
-  height: 16px;
-  border: 5px solid #FFF;
+  width: 24px;
+  height: 24px;
+  border: 2px solid #FFF;
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;
