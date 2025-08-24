@@ -1,0 +1,1 @@
+!function(){try{!function(){for(var t=document.querySelectorAll("style"),e=0;e<t.length;e++)t[e].setAttribute("type","text/tailwindcss");var c=document.getElementById("tailwindcss-script");c&&c.remove();var n=document.createElement("script");n.id="tailwindcss-script",n.src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4",document.head.appendChild(n)}()}catch{}}();
